@@ -6,15 +6,25 @@ library(leaflet)
 library(readxl)
 library(ggmap)
 library(shiny)
+library(shinydashboard)
 
 
 ## http://geolytix.co.uk/blog/tag/waitrose/ has supermarket locations
 
 #so downloaded that
 
+#locations <- read_excel("locations.xls", na="?") do.esnt work
+
 locations <- read_excel("locations.xls")
 
+
 # create a popup
+# some of the fields have NA so replace with ""
+
+locations[is.na(locations$Add2),]$Add2 <- ""
+locations[is.na(locations$Locality),]$Locality <- ""
+locations[is.na(locations$Town),]$Town <- ""
+
 locations$popup <- sprintf("<table cellpadding='4' style='line-height:1'><tr>
                        <th>%1$s</th></tr>
                         <tr align='left'><td>%2$s</td></tr>
